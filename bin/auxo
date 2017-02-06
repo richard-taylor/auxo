@@ -1,0 +1,51 @@
+#!/usr/bin/python3
+
+import os.path
+logfile = os.path.join(os.getenv('LOGDIR', '/tmp'), 'auxo.log')
+
+import logging
+logging.basicConfig(filename=logfile,
+                    format='%(asctime)s %(levelname)s : %(message)s',
+                    level=logging.INFO)
+                  
+import optparse
+parser = optparse.OptionParser(usage="""%prog [options]
+
+Run a set of Auxo Agents and send a report.""")
+
+parser.add_option('--always-report', action='store_true', default=False, help=
+"Send a report even if none of the agents have anything to say. "
+"This is a useful switch to run with once a week to check that the "
+"agents are still being scheduled.")
+
+(options, leftover) = parser.parse_args()
+
+import auxo.agent
+import auxo.executor
+import auxo.report
+
+logging.info('Auxo started.')
+
+auxo.agent.state_dir = os.getenv('AUXODIR', '/tmp')
+
+agents = [
+    auxo.agent.CubingAgent(),
+    # auxo.agent.GLiveAgent(),
+    auxo.agent.HashWebAgent('Alison', 'http://alisontaylor.co.uk/'),
+    auxo.agent.HashWebAgent('Richard', 'http://richardtaylor.co.uk/'),
+    auxo.agent.HashWebAgent('Kinch', 'http://wcadb.net/kinchranks.php?region=United+Kingdom&gender=all&show=100')
+]
+
+results = auxo.executor.run(agents)
+
+auxo.report.always_report = options.always_report
+auxo.report.email_smtp = os.getenv('EMAIL_SMTP')
+auxo.report.email_sender = os.getenv('EMAIL_SENDER')
+auxo.report.email_passwd = os.getenv('EMAIL_PASSWD')
+auxo.report.email_subject = os.getenv('EMAIL_SUBJECT')
+auxo.report.email_recipient = os.getenv('EMAIL_RECIPIENT')
+auxo.report.email_signature = os.getenv('EMAIL_SIGNATURE')
+#
+auxo.report.collate(results)
+
+logging.info('Auxo finished.')
