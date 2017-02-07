@@ -18,11 +18,17 @@ parser.add_option('--always-report', action='store_true', default=False, help=
 "This is a useful switch to run with once a week to check that the "
 "agents are still being scheduled.")
 
+parser.add_option('--print-report', action='store_true', default=False, help=
+"Normally the report is sent by email. "
+"This switch causes the report to be printed on stdout instead. ")
+
 (options, leftover) = parser.parse_args()
 
 import auxo.agent
 import auxo.executor
 import auxo.report
+
+import auxo.kinch_agent
 
 logging.info('Auxo started.')
 
@@ -30,15 +36,17 @@ auxo.agent.state_dir = os.getenv('AUXODIR', '/tmp')
 
 agents = [
     auxo.agent.CubingAgent(),
+    auxo.kinch_agent.KinchAgent('Kinch', 'all'),
     # auxo.agent.GLiveAgent(),
     auxo.agent.HashWebAgent('Alison', 'http://alisontaylor.co.uk/'),
-    auxo.agent.HashWebAgent('Richard', 'http://richardtaylor.co.uk/'),
-    auxo.agent.HashWebAgent('Kinch', 'http://wcadb.net/kinchranks.php?region=United+Kingdom&gender=all&show=100')
+    auxo.agent.HashWebAgent('Richard', 'http://richardtaylor.co.uk/')
 ]
 
 results = auxo.executor.run(agents)
 
 auxo.report.always_report = options.always_report
+auxo.report.print_report = options.print_report
+#
 auxo.report.email_smtp = os.getenv('EMAIL_SMTP')
 auxo.report.email_sender = os.getenv('EMAIL_SENDER')
 auxo.report.email_passwd = os.getenv('EMAIL_PASSWD')

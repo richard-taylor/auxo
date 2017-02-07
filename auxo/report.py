@@ -4,6 +4,8 @@ import smtplib
 from email.mime.text import MIMEText
 
 always_report = False
+print_report = False
+
 email_smtp = ''
 email_sender = ''
 email_passwd = ''
@@ -21,7 +23,7 @@ class Report(object):
 			self.text = text
 		else:
 			self.text += text
-
+	
 def sendemail(text):
 	logging.info('Sending email.')
 	
@@ -53,7 +55,10 @@ def collate(results):
 			reports += 1
 		
 	if reports > 0 or always_report:
-		sendemail(text)
+		if print_report:
+			print(text)
+		else:
+			sendemail(text)
 	else:
 		logging.info('No results to send.')
 
