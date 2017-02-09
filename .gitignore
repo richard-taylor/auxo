@@ -89,5 +89,5 @@ ENV/
 .ropeproject
 
 # test and backup files
-auxo/test/.html-cache
+*.html-cache
 *~
