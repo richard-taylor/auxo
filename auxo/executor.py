@@ -5,12 +5,12 @@
 import logging
 
 def run(agent_list):
-	logging.info('Running all the agents.')
-	results = []
-	
-	for a in agent_list:
-		a.loadState()
-		results.append(a.result())
-		a.saveState()
-		
-	return results
+    logging.info('Running all the agents.')
+    results = []
+    
+    for a in agent_list:
+        a.loadState()
+        results.append(a.result())
+        a.saveState()
+        
+    return results
