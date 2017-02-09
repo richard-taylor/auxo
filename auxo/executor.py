@@ -16,7 +16,8 @@ def run(agent_list):
             a.saveState()
             
         except Exception as ex:
-            logger.error("Exception from agent " + a.name + ": " + str(ex))
-            results.append(auxo.report.Report(a.name, "Failed to complete.\n")
+            logging.error("Exception from agent " + a.name + ": " + str(ex))
+            results.append(auxo.report.Report(a.name, "Failed to complete.\n"))
         
     return results
+
