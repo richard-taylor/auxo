@@ -35,7 +35,6 @@ class BaseAgent(object):
     def result(self):
         return auxo.report.Report(self.name)
 
-
 http = httplib2.Http('.html-cache')
         
 class WebAgent(BaseAgent):
@@ -46,23 +45,17 @@ class WebAgent(BaseAgent):
     def result(self):
         logging.info('Loading ' + self.url)
         
-        try:
-            (response, content) = http.request(self.url, 'GET')
-            self.state['http-status'] = response['status']
-            if response['status'] == '200':
-                if 'content-length' in response:
-                    self.state['content-length'] = response['content-length']
-                self.content = content
-            else:
-                self.content = None
-                
-        except Exception as ex:
-            logging.error('agent ' + self.name + ' exception ' + str(ex))
+        (response, content) = http.request(self.url, 'GET')
+        self.state['http-status'] = response['status']
+        if response['status'] == '200':
+            if 'content-length' in response:
+                self.state['content-length'] = response['content-length']
+            self.content = content
+        else:
             self.content = None
             
         return super().result()
-        
-        
+         
 class HashWebAgent(WebAgent):
     def __init__(self, name, url):
         super().__init__(name, url)

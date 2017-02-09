@@ -20,46 +20,41 @@ class KinchAgent(auxo.agent.WebAgent):
         if self.content is None:
             report.addText('Failed to load the page.\n')
         else:
-            try:
-                soup = bs4.BeautifulSoup(self.content, 'html.parser')
+            soup = bs4.BeautifulSoup(self.content, 'html.parser')
                 
-                # expecting something like:
-                # <tr>
-                #   <td>50</td>
-                #   <td><a href="url">Person Name</a></td>
-                #   <td>88.5</td>
+            # expecting something like:
+            # <tr>
+            #   <td>50</td>
+            #   <td><a href="url">Person Name</a></td>
+            #   <td>88.5</td>
                 
-                anchor = soup.find('a', href=True, text=self.person)
+            anchor = soup.find('a', href=True, text=self.person)
                 
-                if anchor is None:
-                    report.addText('Cannot find ' + self.person + ' on the page.\n')
-                    return report
+            if anchor is None:
+                report.addText('Cannot find ' + self.person + ' on the page.\n')
+                return report
 
-                tr = anchor.parent.parent
-                td = tr.find_all('td')
+            tr = anchor.parent.parent
+            td = tr.find_all('td')
                 
-                rank = td[0].text
-                score = td[2].text
+            rank = td[0].text
+            score = td[2].text
 
-                if (rank is None) or (rank == ''):
-                    # probably a tie. TODO extract it from the previous row.
-                    rank = '???'
+            if (rank is None) or (rank == ''):
+                # probably a tie. TODO extract it from the previous row.
+                rank = '???'
                     
-                if (score is None) or score == '':
-                    report.addText('Cannot find the score on the page. New format?\n')
-                    return report
+            if (score is None) or score == '':
+                report.addText('Cannot find the score on the page. New format?\n')
+                return report
                                             
-                if ('rank' not in self.state) or (self.state['rank'] != rank):
-                    report.addText('New rank: ' + rank + '\n')
-                    self.state['rank'] = rank
+            if ('rank' not in self.state) or (self.state['rank'] != rank):
+                report.addText('New rank: ' + rank + '\n')
+                self.state['rank'] = rank
                     
-                if ('score' not in self.state) or (self.state['score'] != score):
-                    report.addText('New score: ' + score + '\n')
-                    self.state['score'] = score
-                
-            except IOError as ex:
-                logging.error('Error parsing HTML: ' + str(ex))
-                report.addText('Failed to parse the HTML page.\n')
+            if ('score' not in self.state) or (self.state['score'] != score):
+                report.addText('New score: ' + score + '\n')
+                self.state['score'] = score
                 
         return report
-        
+
