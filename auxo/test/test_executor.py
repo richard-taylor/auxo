@@ -1,6 +1,6 @@
 
 import logging
-logging.basicConfig(filename='/tmp/pyunit')
+logging.basicConfig(filename='/tmp/test_executor')
 
 import auxo.executor
 import auxo.test.mocks

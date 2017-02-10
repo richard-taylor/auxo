@@ -1,6 +1,5 @@
 
 import bs4
-import logging
 
 import auxo.agent
 import auxo.report
@@ -60,7 +59,8 @@ class KinchAgent(auxo.agent.WebAgent):
                 self.state['score'] = score
                 changed = True
                 
-            report.addText("New table: " + self.url + "\n")
+            if changed:
+                report.addText("New table: " + self.url + "\n")
             
         return report
 

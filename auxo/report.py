@@ -1,6 +1,7 @@
 
 import logging
 import smtplib
+import traceback
 from email.mime.text import MIMEText
 
 always_report = False
@@ -39,8 +40,8 @@ def sendemail(text):
         server.login(email_sender, email_passwd)
         server.send_message(message)
         server.quit()
-    except Exception as ex:
-        logging.error('Exception sending email: ' + str(ex))
+    except Exception:
+        logging.error('Exception sending email: ' + traceback.format_exc())
     
 def collate(results):
     logging.info('Collating results.')

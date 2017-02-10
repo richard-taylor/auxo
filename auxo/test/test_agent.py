@@ -1,8 +1,9 @@
 
 import logging
-logging.basicConfig(filename='/tmp/pyunit')
+logging.basicConfig(filename='/tmp/unittest')
 
 import auxo.agent
+import auxo.test.mocks
 import os
 import unittest
 
@@ -11,13 +12,6 @@ def helperRemove(filename):
         os.remove(filename)
     except OSError:
         pass
-
-class mockHTTP(object):
-    def __init__(self, return_value):
-        self.return_value = return_value
-        
-    def request(self, url, method):
-        return self.return_value
         
 class TestAgent(unittest.TestCase):
 
@@ -38,7 +32,8 @@ class TestAgent(unittest.TestCase):
         self.assertEqual(r.text, None)
         
     def testWebAgent(self):
-        auxo.agent.http = mockHTTP(({'status': '200', 'content-length': '4'}, b'1234'))
+        auxo.agent.http = auxo.test.mocks.mockHTTP(
+            ({'status': '200', 'content-length': '4'}, b'1234'))
             
         a = auxo.agent.WebAgent('foo', 'http://example.com/')
         
@@ -58,7 +53,8 @@ class TestAgent(unittest.TestCase):
         self.assertEqual(r.text, None)
     
     def testHashWebAgent(self):
-        auxo.agent.http = mockHTTP(({'status': '200', 'content-length': '5'}, b'12345'))
+        auxo.agent.http = auxo.test.mocks.mockHTTP(
+            ({'status': '200', 'content-length': '5'}, b'12345'))
             
         a = auxo.agent.HashWebAgent('foo', 'http://example.com/')
         
@@ -85,7 +81,8 @@ class TestAgent(unittest.TestCase):
             length = len(content)
             self.assertTrue(length > 0)
             
-            auxo.agent.http = mockHTTP(({'status': '200', 'content-length': str(length)}, content))
+            auxo.agent.http = auxo.test.mocks.mockHTTP(
+                ({'status': '200', 'content-length': str(length)}, content))
             
             a = auxo.agent.GLiveAgent()
             self.assertTrue('events' in a.state)
@@ -103,22 +100,3 @@ class TestAgent(unittest.TestCase):
             self.assertEqual(gala['min price'], '£29.50')
             self.assertEqual(gala['max price'], '£38.50')
             
-            
-    def testCubingAgent(self):
-        with open('europe.html', 'rb') as f:
-            # read in the previously downloaded page
-            content = f.read()
-            length = len(content)
-            self.assertTrue(length > 0)
-            
-            auxo.agent.http = mockHTTP(({'status': '200', 'content-length': str(length)}, content))
-        
-            a = auxo.agent.CubingAgent()
-            self.assertTrue('events' in a.state)
-        
-            r = a.result()
-            # print(r.text)
-            
-            e = a.state['events']
-            self.assertEqual(len(e), 39)
-

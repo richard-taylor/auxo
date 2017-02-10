@@ -78,69 +78,6 @@ class HashWebAgent(WebAgent):
                 
         return report
 
-class CubingAgent(WebAgent):
-    def __init__(self):
-        super().__init__('Cubing', 'https://www.worldcubeassociation.org/competitions?region=_Europe')
-        
-        #self.re_date = re.compile(r'^\s*([A-Z].*20\d\d)\s*$')
-        self.re_title = re.compile(r'<a href="/competitions/(.*?)">(.*?)</a>')
-        #self.re_place = re.compile(r'<p class="location"><strong>(.*?)</strong>(.*?)</p>')
-        
-        if 'events' not in self.state:
-            self.state['events'] = {}
-        
-    def result(self):
-        report = super().result()
-        
-        if self.content is None:
-            report.addText('Failed to load the page.\n')
-        else:
-            content_string = self.content.decode('utf-8')
-            more_events = False
-            current_events = {}
-            event = { 'date': 'none', 'title': 'none', 'location': 'none' }
-            
-            for line in content_string.split('\n'):
-                #date_match = self.re_date.search(line)
-                #if date_match:
-                #   event['date'] = date_match.group(1)
-                    
-                title_match = self.re_title.search(line)
-                if title_match:
-                    event['title'] = title_match.group(2)
-                    
-                    #place_match = self.re_place.search(line)
-                    #if place_match:
-                    #   event['location'] = place_match.group(1) + place_match.group(2)
-                    
-                    digest = hashlib.sha1()
-                    #digest.update(event['date'].encode('utf-8'))
-                    digest.update(event['title'].encode('utf-8'))
-                    #digest.update(event['location'].encode('utf-8'))
-                    
-                    event_id = digest.hexdigest()
-                    
-                    current_events[event_id] = event
-                    
-                    if event_id not in self.state['events']:
-                        report.addText('\nEvent: ' + event['title'] + '\n')
-                        #report.addText('Date:     ' + event['date'] + '\n')
-                        #report.addText('Location: ' + event['location'] + '\n')
-                        more_events = True
-            
-            if more_events:
-                report.addText('\nregister here: ' + self.url + '\n')
-            
-            # if there are no current events then the website layout has
-            # probably changed, so report that.
-            if len(current_events) > 0:
-                self.state['events'] = current_events
-            else:
-                report.addText('No events found. Format has changed?\n')
-            
-        return report
-
-
 class GLiveAgent(WebAgent):
     def __init__(self):
         super().__init__('GLive', 'https://glive.co.uk/Online/allevents')
