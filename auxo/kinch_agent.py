@@ -47,14 +47,20 @@ class KinchAgent(auxo.agent.WebAgent):
             if (score is None) or score == '':
                 report.addText('Cannot find the score on the page. New format?\n')
                 return report
-                                            
+            
+            changed = False
+                                   
             if ('rank' not in self.state) or (self.state['rank'] != rank):
                 report.addText('New rank: ' + rank + '\n')
                 self.state['rank'] = rank
+                changed = True
                     
             if ('score' not in self.state) or (self.state['score'] != score):
                 report.addText('New score: ' + score + '\n')
                 self.state['score'] = score
+                changed = True
                 
+            report.addText("New table: " + self.url + "\n")
+            
         return report
 
