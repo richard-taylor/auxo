@@ -17,7 +17,7 @@ you have all the dependencies.
 There is an example python script `bin/auxo` which demonstrates some of
 the typical usage.
 
-You can run it with the `bin/auxo_runner.sh` wrapper _if_ you supply a
+You can run it with the `bin/auxo_runner.sh` wrapper __if__ you supply a
 file `bin/auxo_runner.env` which defines all the required environment
 variables.
 
