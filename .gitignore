@@ -89,5 +89,6 @@ ENV/
 .ropeproject
 
 # test and backup files
+bin/auxo_runner.env
 *.html-cache
 *~
