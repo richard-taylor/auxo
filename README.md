@@ -23,6 +23,7 @@ variables.
 
 The most useful agents are:
 
+* CubingAgent - checks for newly posted competitions on the WCA site.
 * HashWebAgent - checks for any changes in a web page.
 * KinchAgent - checks the ranking and score of a person on the Kinch Ranks.
 
