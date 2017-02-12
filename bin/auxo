@@ -38,7 +38,6 @@ auxo.agent.state_dir = os.getenv('AUXODIR', '/tmp')
 agents = [
     auxo.cubing_agent.CubingAgent(),
     auxo.kinch_agent.KinchAgent('Kinch', 'Harry Taylor', 'all'),
-    # auxo.agent.GLiveAgent(),
     auxo.agent.HashWebAgent('Alison', 'http://alisontaylor.co.uk/'),
     auxo.agent.HashWebAgent('Richard', 'http://richardtaylor.co.uk/')
 ]

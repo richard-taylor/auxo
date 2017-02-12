@@ -73,30 +73,4 @@ class TestAgent(unittest.TestCase):
         self.assertEqual(a.content, b'12345')
         self.assertEqual(r.name, 'foo')
         self.assertEqual(r.text, 'The page has changed: http://example.com/\n')
-        
-    def testGLiveAgent(self):
-        with open('events.html', 'rb') as f:
-            # read in the sample HTML page
-            content = f.read()
-            length = len(content)
-            self.assertTrue(length > 0)
-            
-            auxo.agent.http = auxo.test.mocks.mockHTTP(
-                ({'status': '200', 'content-length': str(length)}, content))
-            
-            a = auxo.agent.GLiveAgent()
-            self.assertTrue('events' in a.state)
-            
-            r = a.result()
-            # print(r.text)
-            
-            e = a.state['events']
-            self.assertNotEqual(len(e), 0)
-            
-            gala = e['2A28F917-2710-4F2C-BBAE-5DA2471BAA53']
-            self.assertEqual(gala['description'], 'Johann Strauss Gala')
-            self.assertEqual(gala['start date'], 'Wednesday 30 Dec 2015 at 7:30pm')
-            self.assertEqual(gala['end date'], '')
-            self.assertEqual(gala['min price'], '£29.50')
-            self.assertEqual(gala['max price'], '£38.50')
-            
+
