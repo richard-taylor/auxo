@@ -10,12 +10,19 @@ import auxo.report
 state_dir = '/tmp'
 
 class BaseAgent(object):
+    '''
+    Base class for agents with a small amount of state information.
+    
+    State is saved as a JSON object, with the same name as the agent, in the
+    auxo.agent.state_dir directory.
+    '''
+    
     def __init__(self, name):
         self.name = name
         self.state = { 'load-state-error': 'loadState not called' }
+        self.filename = os.path.join(state_dir, self.name + '.json')
         
     def loadState(self):
-        self.filename = os.path.join(state_dir, self.name + '.json')
         try:
             with open(self.filename, 'r') as file:
                 self.state = json.load(file)
@@ -32,11 +39,18 @@ class BaseAgent(object):
             logging.error('agent ' + self.name + ' exception saving state: ' + str(ex))
         
     def result(self):
+        '''
+        Perform the agent's operations, update the state and return a Report object.
+        '''
         return auxo.report.Report(self.name)
 
 http = httplib2.Http('.html-cache')
         
 class WebAgent(BaseAgent):
+    '''
+    Base class for agents which load a web page.
+    '''
+    
     def __init__(self, name, url):
         super().__init__(name)
         self.url = url
@@ -56,6 +70,11 @@ class WebAgent(BaseAgent):
         return super().result()
          
 class HashWebAgent(WebAgent):
+    '''
+    A simple web agent that loads a page and compares a hash of the content to
+    the previous hash. So a simple way to check if a page has changed.
+    '''
+    
     def __init__(self, name, url):
         super().__init__(name, url)
         

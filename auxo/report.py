@@ -15,6 +15,10 @@ email_recipient = ''
 email_signature = ''
 
 class Report(object):
+    '''
+    A class to collect reporting text from agents.
+    '''
+    
     def __init__(self, name, text = None):
         self.name = name
         self.text = text
@@ -44,6 +48,11 @@ def sendemail(text):
         logging.error('Exception sending email: ' + traceback.format_exc())
     
 def collate(results):
+    '''
+    Function to collect the text from a list of reports. If there is at least one
+    non-empty report then an email is sent to the configured recipient.
+    '''
+    
     logging.info('Collating results.')
     reports = 0
     text = ''

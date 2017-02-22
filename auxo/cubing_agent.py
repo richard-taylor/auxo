@@ -8,6 +8,11 @@ import auxo.report
 url_europe = 'https://www.worldcubeassociation.org/competitions?region=_Europe'
  
 class CubingAgent(auxo.agent.WebAgent):
+    '''
+    An agent which checks for new Rubik's Cube competitions on the World Cubing
+    Association website.
+    '''
+    
     def __init__(self):
         super().__init__('Cubing', url_europe)
         

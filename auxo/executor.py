@@ -7,6 +7,10 @@ import traceback
 import auxo.report
 
 def run(agent_list):
+    '''
+    Function to safely run a list of agents, catching and reporting any exceptions.
+    '''
+    
     logging.info('Running all the agents.')
     results = []
     

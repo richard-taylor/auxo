@@ -8,6 +8,11 @@ url_base = 'http://wcadb.net/kinchranks.php'
 url_query = url_base + '?region=United+Kingdom&gender=all&show=100'
 
 class KinchAgent(auxo.agent.WebAgent):
+    '''
+    An agent to check the ranking position and ranking score of a named individual
+    on the Kinch Ranking website for Rubik's Cubers.
+    '''
+    
     def __init__(self, agent_name, person, kinch):
         super().__init__(agent_name, url_query + '&kinch=' + kinch)
         
