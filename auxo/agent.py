@@ -4,6 +4,7 @@ import httplib2
 import json
 import logging
 import os.path
+import re
 
 import auxo.report
 
@@ -93,6 +94,35 @@ class HashWebAgent(WebAgent):
                 report.addText('The page has changed: ' + self.url + '\n')
             
             self.state['content-hash'] = hexdigest
+                
+        return report
+
+class PatternWebAgent(WebAgent):
+    '''
+    A simple web agent that loads a page and looks for a regular expression
+    pattern in the content. It can report either the presence or absence of
+    the pattern.
+    '''
+    
+    def __init__(self, name, url, pattern, present=None, absent=None):
+        super().__init__(name, url)
+        self.pattern = pattern
+        self.present = present
+        self.absent = absent
+        
+    def result(self):
+        report = super().result()
+        
+        if self.content is None:
+            report.addText('Failed to load the page.\n')
+        else:
+            search = re.search(self.pattern, self.content)
+            
+            if search is None and self.absent is not None:
+                report.addText(self.absent + ' : ' + self.url + '\n')
+            
+            if search is not None and self.present is not None:
+                report.addText(self.present + ' : ' + self.url + '\n')
                 
         return report
 
