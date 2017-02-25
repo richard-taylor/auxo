@@ -33,16 +33,20 @@ class ElectricTheatreAgent(auxo.agent.WebAgent):
             #
             # <a href="link">The title <span>  Sat 14 Jun  </span></a>
     
-            spans = soup.find_all('span', string=re.compile('(.*)\s...\s\d+\s...(.*)'))
+            spans = soup.find_all('span')
             
             new_events = 0
             current_events = {}
             
             for span in spans:
                 date = span.text.strip()
+
+                if re.search('\S\S\S\s\d+\s\S\S\S', date) is None:
+                    continue
+
                 title = span.parent.contents[0].strip()
                 
-                if (date == '') or (title == ''):
+                if title == '':
                     continue
                     
                 event = { 'date': date, 'title': title }
