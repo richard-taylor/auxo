@@ -43,11 +43,7 @@ agents = [
     auxo.yvonne_arnaud.YvonneArnaudAgent(),
     auxo.electric_theatre.ElectricTheatreAgent(),
     auxo.agent.HashWebAgent('Alison', 'http://alisontaylor.co.uk/'),
-    auxo.agent.HashWebAgent('Richard', 'http://richardtaylor.co.uk/'),
-    auxo.agent.PatternWebAgent('Worlds', 
-                               'https://www.worldcubeassociation.org/competitions/WC2017',
-                               b'Registrations will be opened on the WCA website soon.',
-                               absent='Might be open now')
+    auxo.agent.HashWebAgent('Richard', 'http://richardtaylor.co.uk/')
 ]
 
 results = auxo.executor.run(agents)
