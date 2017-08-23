@@ -6,7 +6,7 @@ import re
 import auxo.agent
 import auxo.report
 
-url_whatson = 'http://www.guildford.gov.uk/electrictheatre/article/14768/Whats-on'
+url_whatson = 'https://electric.theatre/events/'
  
 class ElectricTheatreAgent(auxo.agent.WebAgent):
     '''
@@ -28,25 +28,24 @@ class ElectricTheatreAgent(auxo.agent.WebAgent):
         else:
             soup = bs4.BeautifulSoup(self.content, 'html.parser')
                 
-            # There is very little semantic structure on this site.
-            # Events just have unclassed wrapping and a link like:
-            #
-            # <a href="link">The title <span>  Sat 14 Jun  </span></a>
+            # Events just have a div like:
+            #   <div class="event-dates">
+            #     <h2 class="show-title">See How They Run</h2>
+            #     <div class="event-date-range">18-19 October 2017</div>
     
-            spans = soup.find_all('span')
+            divs = soup.select('div.event-dates')
             
             new_events = 0
             current_events = {}
             
-            for span in spans:
-                date = span.text.strip()
+            for div in divs:
+                h2 = div.select('h2.show-title')
+                title = h2[0].text.strip()
 
-                if re.search('\S\S\S\s\d+\s\S\S\S', date) is None:
-                    continue
+                d2 = div.select('div.event-date-range')
+                date = d2[0].text.strip()
 
-                title = span.parent.contents[0].strip()
-                
-                if title == '':
+                if title == '' or date == '':
                     continue
                     
                 event = { 'date': date, 'title': title }
