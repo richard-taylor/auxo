@@ -22,7 +22,7 @@ class mockHTTP(object):
     def __init__(self, return_value):
         self.return_value = return_value
         
-    def request(self, url, method):
+    def request(self, url, method, **keywords):
         return self.return_value
 
 class mockHttpFile(mockHTTP):
