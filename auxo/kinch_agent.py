@@ -54,13 +54,21 @@ class KinchAgent(auxo.agent.WebAgent):
             
             changed = False
                                    
-            if ('rank' not in self.state) or (self.state['rank'] != rank):
+            if 'rank' not in self.state:
                 report.addText('New rank: ' + rank + '\n')
                 self.state['rank'] = rank
                 changed = True
+            elif self.state['rank'] != rank:
+                report.addText('Changed rank: ' + rank + ' (was ' + self.state['rank'] + ')\n')
+                self.state['rank'] = rank
+                changed = True
                     
-            if ('score' not in self.state) or (self.state['score'] != score):
+            if 'score' not in self.state:
                 report.addText('New score: ' + score + '\n')
+                self.state['score'] = score
+                changed = True
+            elif self.state['score'] != score:
+                report.addText('Changed score: ' + score + ' (was ' + self.state['score'] + ')\n')
                 self.state['score'] = score
                 changed = True
                 
