@@ -1,4 +1,5 @@
 
+import hashlib
 import logging
 import smtplib
 import traceback
@@ -32,7 +33,11 @@ class Report(object):
 def sendemail(text):
     logging.info('Sending email.')
     
-    full_text = text + '\n' + email_signature
+    digest = hashlib.sha1()
+    digest.update(text.encode('utf-8'))
+    hexdigest = 'auxo SHA1 ' + digest.hexdigest()
+            
+    full_text = text + '\n' + email_signature + '\n\n' + hexdigest
     
     message = MIMEText(full_text, 'plain', 'utf-8')
     message['Subject'] = email_subject
