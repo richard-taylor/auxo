@@ -43,7 +43,8 @@ agents = [
     auxo.yvonne_arnaud.YvonneArnaudAgent(),
     auxo.electric_theatre.ElectricTheatreAgent(),
     auxo.agent.HashWebAgent('Alison', 'http://alisontaylor.co.uk/'),
-    auxo.agent.HashWebAgent('Richard', 'http://richardtaylor.co.uk/')
+    auxo.agent.HashWebAgent('Richard', 'http://richardtaylor.co.uk/'),
+    auxo.agent.HashWebAgent('Euro2018', 'https://euro2018.cubecomps.com/en/')
 ]
 
 results = auxo.executor.run(agents)
