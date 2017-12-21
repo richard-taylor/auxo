@@ -5,7 +5,7 @@ import hashlib
 import auxo.agent
 import auxo.report
 
-url_europe = 'https://www.worldcubeassociation.org/competitions?region=_Europe'
+url_uk = 'https://www.worldcubeassociation.org/competitions?region=United+Kingdom'
  
 class CubingAgent(auxo.agent.WebAgent):
     '''
@@ -14,7 +14,7 @@ class CubingAgent(auxo.agent.WebAgent):
     '''
     
     def __init__(self):
-        super().__init__('Cubing', url_europe)
+        super().__init__('Cubing', url_uk)
         
     def result(self):
         report = super().result()
