@@ -31,9 +31,9 @@ class CubingAgent(auxo.agent.WebAgent):
             # <li class="list-group-item not-past">
             #   <span class="date">Apr 23 - 24, 2016</span>
             #   <span class="competition-info">
-            #     <p class="competition-link">Bosnia and Herzegovina Open 2016</p>
-            #     <p class="location">Bosnia and Herzegovina, Banja Luka</p>
-    
+            #     <div class="competition-link">Bosnia and Herzegovina Open 2016</p>
+            #     <div class="location">Bosnia and Herzegovina, Banja Luka</p>
+        
             items = soup.select('li.list-group-item.not-past')
             
             new_comps = 0
@@ -41,8 +41,8 @@ class CubingAgent(auxo.agent.WebAgent):
             
             for li in items:
                 date = li.select('span.date')[0].text.strip()
-                title = li.select('p.competition-link')[0].text.strip()
-                location = li.select('p.location')[0].text.strip()
+                title = li.select('div.competition-link')[0].text.strip()
+                location = li.select('div.location')[0].text.strip()
                 
                 if (date == '') or (title == '') or (location == ''):
                     continue

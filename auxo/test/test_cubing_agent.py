@@ -9,21 +9,21 @@ import unittest
 class TestCubingAgent(unittest.TestCase):
 
     def testCubingAgent(self):
-        auxo.agent.http = auxo.test.mocks.mockHttpFile('europe.html')
+        auxo.agent.http = auxo.test.mocks.mockHttpFile('uk-competitions.html')
         
         a = auxo.cubing_agent.CubingAgent()
         r = a.result()
             
         comps = a.state['comps']
-        self.assertEqual(len(comps), 38)
+        self.assertEqual(len(comps), 4)
             
         found = False
             
         for key, value in comps.items():
-            if value['title'] == 'Euro 2016':
+            if value['title'] == 'ABHC 2018':
                 found = True
-                self.assertEqual(value['date'], 'Jul 15 - 17, 2016')
-                self.assertEqual(value['location'], 'Czech Republic, Prague')
+                self.assertEqual(value['date'], 'Aug 25 - 26, 2018')
+                self.assertEqual(value['location'], 'United Kingdom, Crawley')
             
         self.assertTrue(found)
 
