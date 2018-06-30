@@ -29,7 +29,6 @@ import auxo.executor
 import auxo.report
 
 import auxo.cubing_agent
-import auxo.electric_theatre
 import auxo.kinch_agent
 import auxo.yvonne_arnaud
 
@@ -41,7 +40,6 @@ agents = [
     auxo.cubing_agent.CubingAgent(),
     auxo.kinch_agent.KinchAgent('Kinch', 'Harry Taylor', 'all'),
     auxo.yvonne_arnaud.YvonneArnaudAgent(),
-    auxo.electric_theatre.ElectricTheatreAgent(),
     auxo.agent.HashWebAgent('Alison', 'http://alisontaylor.co.uk/'),
     auxo.agent.HashWebAgent('Richard', 'http://richardtaylor.co.uk/')
 ]
