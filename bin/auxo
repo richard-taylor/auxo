@@ -29,7 +29,6 @@ import auxo.executor
 import auxo.report
 
 import auxo.cubing_agent
-import auxo.kinch_agent
 import auxo.yvonne_arnaud
 
 logging.info('Auxo started.')
@@ -38,7 +37,6 @@ auxo.agent.state_dir = os.getenv('AUXODIR', '/tmp')
 
 agents = [
     auxo.cubing_agent.CubingAgent(),
-    auxo.kinch_agent.KinchAgent('Kinch', 'Harry Taylor', 'all'),
     auxo.yvonne_arnaud.YvonneArnaudAgent(),
     auxo.agent.HashWebAgent('Alison', 'http://alisontaylor.co.uk/'),
     auxo.agent.HashWebAgent('Richard', 'http://richardtaylor.co.uk/')
