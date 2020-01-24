@@ -5,7 +5,7 @@ import hashlib
 import auxo.agent
 import auxo.report
 
-url_whatson = 'http://www.yvonne-arnaud.co.uk/whats-on'
+url_whatson = 'https://www.yvonne-arnaud.co.uk/whats-on'
  
 class YvonneArnaudAgent(auxo.agent.WebAgent):
     '''
