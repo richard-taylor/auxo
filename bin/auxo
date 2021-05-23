@@ -29,6 +29,7 @@ import auxo.executor
 import auxo.report
 
 import auxo.cubing_agent
+import auxo.debug_agent
 import auxo.yvonne_arnaud
 
 logging.info('Auxo started.')
@@ -36,8 +37,9 @@ logging.info('Auxo started.')
 auxo.agent.state_dir = os.getenv('AUXODIR', '/tmp')
 
 agents = [
+    auxo.debug_agent.RunTimeAgent(),
     auxo.cubing_agent.CubingAgent(),
-    auxo.yvonne_arnaud.YvonneArnaudAgent(),
+    #auxo.yvonne_arnaud.YvonneArnaudAgent(),
     auxo.agent.HashWebAgent('Alison', 'http://alisontaylor.co.uk/'),
     auxo.agent.HashWebAgent('Richard', 'http://richardtaylor.co.uk/')
 ]
