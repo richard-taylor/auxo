@@ -1,4 +1,5 @@
 
+import datetime
 import hashlib
 import httplib2
 import json
@@ -9,6 +10,7 @@ import re
 import auxo.report
 
 state_dir = '/tmp'
+time_format = '%Y-%m-%dT%H:%M:%S'
 
 class BaseAgent(object):
     '''
@@ -31,7 +33,10 @@ class BaseAgent(object):
         except (IOError, ValueError) as ex:
             logging.error('agent ' + self.name + ' exception loading state: ' + str(ex))
             self.state['load-state-error'] = str(ex)
-        
+
+        if 'last-changed' not in self.state:
+            self.changed_now()
+
     def saveState(self):
         try:
             with open(self.filename, 'w') as file:
@@ -44,6 +49,14 @@ class BaseAgent(object):
         Perform the agent's operations, update the state and return a Report object.
         '''
         return auxo.report.Report(self.name)
+
+    def changed_now(self):
+        self.state['last-changed'] = datetime.datetime.now().strftime(time_format)
+
+    def unchanged_days(self):
+        now = datetime.datetime.now()
+        then = datetime.datetime.strptime(self.state['last-changed'], time_format)
+        return (now - then).days
 
 http = httplib2.Http('.html-cache')
         
@@ -94,7 +107,10 @@ class HashWebAgent(WebAgent):
             if ('content-hash' not in self.state) or \
                (self.state['content-hash'] != hexdigest):
                 report.addText('The page has changed: ' + self.url + '\n')
-            
+                self.changed_now()
+            else:
+                report.addText('Last changed ' + str(self.unchanged_days()) + ' days ago.\n')
+
             self.state['content-hash'] = hexdigest
                 
         return report
