@@ -22,6 +22,10 @@ parser.add_option('--print-report', action='store_true', default=False, help=
 "Normally the report is sent by email. "
 "This switch causes the report to be printed on stdout instead. ")
 
+parser.add_option('--html-report', default='', type=str, help=
+"Normally the report is sent by email. "
+"This switch causes the report to be written to the given HTML file instead. ")
+
 (options, leftover) = parser.parse_args()
 
 import auxo.agent
@@ -48,6 +52,7 @@ results = auxo.executor.run(agents)
 
 auxo.report.always_report = options.always_report
 auxo.report.print_report = options.print_report
+auxo.report.html_report = options.html_report
 #
 auxo.report.email_smtp = os.getenv('EMAIL_SMTP')
 auxo.report.email_sender = os.getenv('EMAIL_SENDER')

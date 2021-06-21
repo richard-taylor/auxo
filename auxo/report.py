@@ -52,13 +52,7 @@ def sendemail(text):
     except Exception:
         logging.error('Exception sending email: ' + traceback.format_exc())
     
-def collate(results):
-    '''
-    Function to collect the text from a list of reports. If there is at least one
-    non-empty report then an email is sent to the configured recipient.
-    '''
-    
-    logging.info('Collating results.')
+def plain_text(results):
     reports = 0
     text = ''
     for r in results:
@@ -69,11 +63,43 @@ def collate(results):
             text += r.text
             reports += 1
         
-    if reports > 0 or always_report:
-        if print_report:
-            print(text)
+    return (reports, text)
+
+def write_html(filename, html):
+    with open(filename, 'w') as file:
+        file.write(html)
+        logging.info('HTML results file written.')
+
+def html_formatted(results):
+    text = '<html><head><title>Auxo Status</title></head><body>\n'
+    for r in results:
+        text += '<h2>Report from ' + r.name + '</h2>\n'
+        if r.text is None:
+            text += '<pre>All quiet.</pre>\n'
         else:
-            sendemail(text)
+            text += '<pre>' + r.text + '</pre>\n'
+
+    text += '</body></html>\n'
+
+    return text
+
+def collate(results):
+    '''
+    Function to collect the text from a list of reports. If there is at least one
+    non-empty report then an email is sent to the configured recipient.
+    '''
+    logging.info('Collating results.')
+
+    if len(html_report) > 0:
+        write_html(html_report, html_formatted(results))
     else:
-        logging.info('No results to send.')
+        (reports, text) = plain_text(results)
+
+        if reports > 0 or always_report:
+            if print_report:
+                print(text)
+            else:
+                sendemail(text)
+        else:
+            logging.info('No results to send.')
 
