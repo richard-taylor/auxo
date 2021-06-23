@@ -12,6 +12,6 @@ class RunTimeAgent(auxo.agent.BaseAgent):
         
     def result(self):
         report = super().result()
-        report.addText(datetime.datetime.now().isoformat()  + '\n')
+        report.addText(datetime.datetime.now().strftime('%H:%M %A %d-%m-%Y')  + '\n')
 
         return report
