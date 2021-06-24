@@ -71,7 +71,7 @@ def write_html(filename, html):
         logging.info('HTML results file written.')
 
 def html_formatted(results):
-    text = '<html><head><title>Auxo Status</title></head><body>\n'
+    text = '<html><head><title>Auxo Status</title><link rel="stylesheet" href="style.css"></head><body>\n'
     for r in results:
         text += '<h2>Report from ' + r.name + '</h2>\n'
         if r.text is None:
