@@ -72,11 +72,11 @@ class WebAgent(BaseAgent):
     def result(self):
         logging.info('Loading ' + self.url)
 
-        ua = {'user-agent': 'auxo 2.0'}
+        ua = {'User-Agent': 'auxo/2.2.2'}
         
         (response, content) = http.request(self.url, 'GET', headers = ua)
         self.state['http-status'] = response['status']
-        if response['status'] == '200':
+        if response['status'] == '200' or response['status'] == '304':
             if 'content-length' in response:
                 self.state['content-length'] = response['content-length']
             self.content = content
