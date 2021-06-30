@@ -45,7 +45,8 @@ agents = [
     auxo.cubing_agent.CubingAgent(),
     #auxo.yvonne_arnaud.YvonneArnaudAgent(),
     auxo.agent.HashWebAgent('Alison', 'http://alisontaylor.co.uk/'),
-    auxo.agent.HashWebAgent('Richard', 'http://richardtaylor.co.uk/')
+    auxo.agent.HashWebAgent('Richard', 'http://richardtaylor.co.uk/'),
+    auxo.debug_agent.ServerLogAgent('/var/log/apache2/access.log')
 ]
 
 results = auxo.executor.run(agents)
