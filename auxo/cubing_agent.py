@@ -59,12 +59,13 @@ class CubingAgent(auxo.agent.WebAgent):
                 current_comps[comp_id] = comp
                     
                 if comp_id not in self.state['comps']:
-                    report.addText('\n')
-                    report.addText('New competion: ' + title + '\n')
-                    report.addText('     Location: ' + location + '\n')
-                    report.addText('         Date: ' + date + '\n')
+                    report.addText('New competition: ' + title + '\n')
+                    report.addText('       Location: ' + location + '\n')
+                    report.addText('           Date: ' + date + '\n')
                     new_comps += 1
-            
+                else:
+                    report.addText('    Competition: ' + title + ' : ' + date + '\n')
+
             if new_comps > 0:
                 report.addText('\nRegister here: ' + self.url + '\n')
             
